@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "auto-name-enum"
+version = "1.0.0"
+description = "String-based Enum class that automatically assigns values"
+authors = ["Tucker Beck <tucker.beck@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.1.2"
+black = "^20.8b1"
+isort = "^5.6.4"
+pytest-random-order = "^1.0.4"
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+src_paths = ["app", "tests"]
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.pytest.ini_options]
+addopts = "--random-order --failed-first --maxfail=1"
+testpaths = ["tests"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
