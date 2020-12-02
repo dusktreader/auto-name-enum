@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "auto-name-enum"
-version = "1.0.0"
+version = "1.0.1"
 description = "String-based Enum class that automatically assigns values"
 authors = ["Tucker Beck <tucker.beck@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.2"
