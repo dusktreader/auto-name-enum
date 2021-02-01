@@ -1,4 +1,8 @@
 from collections import Counter
+import sys
+
+import pytest
+
 from auto_name_enum import AutoNameEnum, NoMangleMixin, auto
 
 
@@ -63,6 +67,20 @@ class TestAutoNameEnum:
         assert str(DummyEnum.CAT) == "cat"
         assert str(DummyEnum.PIG) == "pig"
 
+    def test___contains__(self):
+        assert "dog" in DummyEnum
+        assert "DOG" in DummyEnum
+        assert "Dog" in DummyEnum
+        # check we didn't break normal contains
+        assert DummyEnum.DOG in DummyEnum
+        # python 3.6 and 3.7 just return False for __contains__ on enums with incorrect types
+        # python 3.8+ throws a type error
+        if sys.version_info.minor < 8:
+            assert 1 not in DummyEnum
+        else:
+            with pytest.raises(TypeError):
+                1 in DummyEnum
+
 
 class IdiotEnum(AutoNameEnum, NoMangleMixin):
     DOG = auto()
@@ -71,6 +89,7 @@ class IdiotEnum(AutoNameEnum, NoMangleMixin):
 
 
 class TestNoMangleMixin:
+    @pytest.mark.skipif(sys.version_info.minor < 7, reason="NoMangleMixin does not work in python 3.6")
     def test_auto(self):
         """
         This test verifies that the values of the items from the enum are
