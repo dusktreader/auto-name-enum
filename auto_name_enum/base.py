@@ -4,7 +4,15 @@ import random
 auto = enum.auto
 
 
-class AutoNameEnum(str, enum.Enum):
+class AutoNameEnumMeta(enum.EnumMeta):
+    def __contains__(cls, member):
+        if isinstance(member, str):
+            return member.upper() in map(str.upper, cls.__members__.keys())
+        else:
+            super().__contains__(member)
+
+
+class AutoNameEnum(str, enum.Enum, metaclass=AutoNameEnumMeta):
     """
     An implementation of enum that automatically assigns the value of each item
     to the lower-case version of the name
