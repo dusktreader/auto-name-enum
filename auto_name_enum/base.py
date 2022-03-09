@@ -1,6 +1,7 @@
 import enum
 import random
 
+
 auto = enum.auto
 
 
@@ -31,14 +32,14 @@ class AutoNameEnum(str, enum.Enum, metaclass=AutoNameEnumMeta):
         presented by swagger when used in api apps
     """
 
-    def _generate_next_value_(name, start, count, last_values):
+    def _generate_next_value_(name: str, *_):  # type: ignore
         return name.lower()
 
     def __str__(self):
         return self.value
 
     @classmethod
-    def rando(cls, *args):
+    def rando(cls, *_):
         return random.choice([e for e in cls])
 
     @classmethod
@@ -65,5 +66,5 @@ class NoMangleMixin(enum.Enum):
         list of subclasses
     """
 
-    def _generate_next_value_(name, start, count, last_values):
+    def _generate_next_value_(name: str, *_):  # type: ignore
         return name
