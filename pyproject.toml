@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "auto-name-enum"
-version = "1.1.0"
+version = "1.2.0"
 description = "String-based Enum class that automatically assigns values"
 authors = ["Tucker Beck <tucker.beck@gmail.com>"]
 readme = "README.md"
@@ -9,7 +9,7 @@ repository = "https://github.com/dusktreader/auto-name-enum"
 
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
