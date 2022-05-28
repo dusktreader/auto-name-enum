@@ -3,7 +3,7 @@ from collections import Counter
 
 import pytest
 
-from auto_name_enum import AutoNameEnum, NoMangleMixin, auto
+from auto_name_enum import AutoNameEnum, auto
 
 
 class DummyEnum(AutoNameEnum):
@@ -18,9 +18,9 @@ class TestAutoNameEnum:
         This test verifies that the values of the items from the enum are
         the lower-case version of the name
         """
-        assert DummyEnum.DOG.value == "dog"
-        assert DummyEnum.CAT.value == "cat"
-        assert DummyEnum.PIG.value == "pig"
+        assert DummyEnum.DOG.value == "DOG"
+        assert DummyEnum.CAT.value == "CAT"
+        assert DummyEnum.PIG.value == "PIG"
 
     def test_rando(self):
         """
@@ -56,21 +56,21 @@ class TestAutoNameEnum:
         This test verifies that the pretty_list function produces a nice
         list of the enumerated values
         """
-        assert DummyEnum.pretty_list() == "dog, cat, pig"
+        assert DummyEnum.pretty_list() == "DOG, CAT, PIG"
 
     def test___str__(self):
         """
         This test verifies that the enum's entries can be properly cast to
         strings
         """
-        assert str(DummyEnum.DOG) == "dog"
-        assert str(DummyEnum.CAT) == "cat"
-        assert str(DummyEnum.PIG) == "pig"
+        assert str(DummyEnum.DOG) == "DOG"
+        assert str(DummyEnum.CAT) == "CAT"
+        assert str(DummyEnum.PIG) == "PIG"
 
     def test___contains__(self):
-        assert "dog" in DummyEnum
+        assert "dog" not in DummyEnum
         assert "DOG" in DummyEnum
-        assert "Dog" in DummyEnum
+        assert "Dog" not in DummyEnum
         # check we didn't break normal contains
         assert DummyEnum.DOG in DummyEnum
         # python 3.6 and 3.7 just return False for __contains__ on enums with incorrect types
@@ -80,21 +80,3 @@ class TestAutoNameEnum:
         else:
             with pytest.raises(TypeError):
                 1 in DummyEnum
-
-
-class IdiotEnum(AutoNameEnum, NoMangleMixin):
-    DOG = auto()
-    CAT = auto()
-    PIG = auto()
-
-
-class TestNoMangleMixin:
-    @pytest.mark.skipif(sys.version_info.minor < 7, reason="NoMangleMixin does not work in python 3.6")
-    def test_auto(self):
-        """
-        This test verifies that the values of the items from the enum are
-        the same as the original name
-        """
-        assert IdiotEnum.DOG.value == "DOG"
-        assert IdiotEnum.CAT.value == "CAT"
-        assert IdiotEnum.PIG.value == "PIG"

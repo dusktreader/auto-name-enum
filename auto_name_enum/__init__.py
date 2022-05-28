@@ -1,8 +1,7 @@
-from auto_name_enum.base import AutoNameEnum, NoMangleMixin, auto
+from auto_name_enum.base import AutoNameEnum, auto
 
 
 __all__ = (
     "auto",
     "AutoNameEnum",
-    "NoMangleMixin",
 )
