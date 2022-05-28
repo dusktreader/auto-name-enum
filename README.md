@@ -17,15 +17,14 @@ class Pets(AutoNameEnum):
 
 ## Getting values
 
-Using the class defi the value of `DOG` would be 'dog':
+Using the class, verify the value of `DOG` would be 'dog':
 
 ```
 >>> print(Pets.DOG.value)
-'dog'
+'DOG'
 ```
 
-If you wish to access the upper-case version of the enum, use the `name`
-attribute:
+You may also get the same value by just using the name of the item:
 
 ```
 >>> print(Pets.DOG)

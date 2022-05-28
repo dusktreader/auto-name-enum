@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "auto-name-enum"
-version = "1.2.0"
+version = "2.0.0"
 description = "String-based Enum class that automatically assigns values"
 authors = ["Tucker Beck <tucker.beck@gmail.com>"]
 readme = "README.md"

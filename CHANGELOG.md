@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v2.0.0 - 2022-05-28
+- Made "no mangle" behavior the default & removed NoMangleMixin
+
 ## v1.2.0 - 2022-03-09
 - Added support for python 3.6 back
 
