@@ -1,5 +1,4 @@
-from enum import auto
-from auto_name_enum.base import AutoNameEnum
+from auto_name_enum.base import AutoNameEnum, auto
 from auto_name_enum.mixins import LowerCaseMixin, TitleCaseMixin
 
 

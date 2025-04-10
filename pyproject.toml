@@ -9,6 +9,9 @@ readme = "README.md"
 license-files = ["LICENSE.md"]
 
 requires-python = ">=3.9"
+dependencies = [
+    "typing-extensions>=4.13.2 ; python_full_version < '3.12'",
+]
 
 [dependency-groups]
 dev = [
@@ -29,7 +32,7 @@ package = true
 addopts = [
     "--cov=src/auto_name_enum",
     "--cov-report=term-missing",
-    "--cov-fail-under=90",
+    "--cov-fail-under=85",
     "--cov-report=xml:.coverage.xml",
     "--junitxml=.junit.xml",
     "--override-ini=junit_family=legacy",

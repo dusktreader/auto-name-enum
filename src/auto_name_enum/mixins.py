@@ -1,5 +1,11 @@
 import enum
-from typing import Any, override
+import sys
+from typing import Any
+
+if sys.version_info < (3, 12):
+    from typing_extensions import override
+else:
+    from typing import override
 
 
 class LowerCaseMixin(enum.Enum):
