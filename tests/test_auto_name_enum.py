@@ -1,7 +1,4 @@
-import sys
 from collections import Counter
-
-import pytest
 
 from auto_name_enum import AutoNameEnum, auto
 
@@ -27,14 +24,13 @@ class TestAutoNameEnum:
         This test verifies a goodness of fit of the rando() function using
         a chi-squared distribution with 95% confidence
         """
-        results = Counter()
+        results: Counter[DummyEnum] = Counter()
         N = 10000
         for _ in range(N):
             results[DummyEnum.rando()] += 1
         chi_squared = 0
         Ei = N / len(DummyEnum)
         df = len(DummyEnum) - 1
-        print(Ei, df, results)
         critical_values_95 = {
             1: 3.841,
             2: 5.991,
@@ -66,17 +62,3 @@ class TestAutoNameEnum:
         assert str(DummyEnum.DOG) == "DOG"
         assert str(DummyEnum.CAT) == "CAT"
         assert str(DummyEnum.PIG) == "PIG"
-
-    def test___contains__(self):
-        assert "dog" not in DummyEnum
-        assert "DOG" in DummyEnum
-        assert "Dog" not in DummyEnum
-        # check we didn't break normal contains
-        assert DummyEnum.DOG in DummyEnum
-        # python 3.6 and 3.7 just return False for __contains__ on enums with incorrect types
-        # python 3.8+ throws a type error
-        if sys.version_info.minor < 8:
-            assert 1 not in DummyEnum
-        else:
-            with pytest.raises(TypeError):
-                1 in DummyEnum

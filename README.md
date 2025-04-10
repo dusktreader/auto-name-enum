@@ -42,3 +42,20 @@ for pet in Pets:
 
 For more information on enums (and the auto method), see [the official docs]
 (https://docs.python.org/3/library/enum.html)
+
+
+## Mixins
+
+There are two mixins provided that change the behavior of `auto()`:
+
+- `LowerCaseMixin`: values produced by `auto()` are in all lower-case
+- `TitleCaseMixin`: values produced by `auto()` will be in title- case (lower-case except for first letter)
+
+When these mixins are used, they _must_ be included after `AutoNameEnum` in the class inheritance declaration:
+
+```python
+class Pets(AutoNameEnum, TitleCaseMixin)
+    DOG = auto()
+    CAT = auto()
+    PIG = auto()
+```

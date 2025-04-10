@@ -1,16 +1,23 @@
 import enum
 import random
+import sys
+from typing import Any
 
+if sys.version_info < (3, 12):
+    from typing_extensions import Self, override
+else:
+    from typing import Self, override
 
 auto = enum.auto
 
 
 class AutoNameEnumMeta(enum.EnumMeta):
-    def __contains__(cls, member):
+    @override
+    def __contains__(cls, member: Any) -> bool:
         if isinstance(member, str):
             return member in cls.__members__.keys()
         else:
-            super().__contains__(member)
+            return super().__contains__(member)
 
 
 class AutoNameEnum(str, enum.Enum, metaclass=AutoNameEnumMeta):
@@ -31,16 +38,19 @@ class AutoNameEnum(str, enum.Enum, metaclass=AutoNameEnumMeta):
         presented by swagger when used in api apps.
     """
 
-    def _generate_next_value_(name: str, *_):  # type: ignore
+    @override
+    @staticmethod
+    def _generate_next_value_(name: str, *_: Any, **__: Any) -> str:
         return name
 
-    def __str__(self):
+    @override
+    def __str__(self) -> str:
         return self.value
 
     @classmethod
-    def rando(cls, *_):
+    def rando(cls) -> Self:
         return random.choice([e for e in cls])
 
     @classmethod
-    def pretty_list(cls):
+    def pretty_list(cls) -> str:
         return ", ".join(str(e) for e in cls)
