@@ -55,6 +55,7 @@ reportAny = false
 reportExplicitAny = false
 reportUnusedCallResult = false
 reportUnusedExpression = false
+reportUnnecessaryTypeIgnoreComment = false
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/auto_name_enum"]

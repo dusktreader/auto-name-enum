@@ -1,4 +1,7 @@
+import sys
 from collections import Counter
+
+import pytest
 
 from auto_name_enum import AutoNameEnum, auto
 
@@ -62,3 +65,17 @@ class TestAutoNameEnum:
         assert str(DummyEnum.DOG) == "DOG"
         assert str(DummyEnum.CAT) == "CAT"
         assert str(DummyEnum.PIG) == "PIG"
+
+    def test___contains__(self):
+        assert "dog" not in DummyEnum
+        assert "DOG" in DummyEnum
+        assert "Dog" not in DummyEnum
+        # check we didn't break normal contains
+        assert DummyEnum.DOG in DummyEnum
+        if sys.version_info < (3, 12):
+            # python 3.9,10,11 throw a type error
+            with pytest.raises(TypeError):  # pyright: ignore[reportUnreachable]
+                1 in DummyEnum
+        else:
+            # python 3.12 and 3.13 just return False for __contains__ on enums with incorrect types
+            assert 1 not in DummyEnum  # pyright: ignore[reportUnreachable]

@@ -4,9 +4,9 @@ import sys
 from typing import Any
 
 if sys.version_info < (3, 12):
-    from typing_extensions import Self, override
+    from typing_extensions import Self, override  # pyright: ignore[reportUnreachable]
 else:
-    from typing import Self, override
+    from typing import Self, override  # pyright: ignore[reportUnreachable]
 
 auto = enum.auto
 

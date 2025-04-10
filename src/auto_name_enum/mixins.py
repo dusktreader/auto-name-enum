@@ -3,9 +3,9 @@ import sys
 from typing import Any
 
 if sys.version_info < (3, 12):
-    from typing_extensions import override
+    from typing_extensions import override  # pyright: ignore[reportUnreachable]
 else:
-    from typing import override
+    from typing import override  # pyright: ignore[reportUnreachable]
 
 
 class LowerCaseMixin(enum.Enum):
