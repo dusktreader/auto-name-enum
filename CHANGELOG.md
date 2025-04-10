@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v3.0.0 - 2025-04-10
+- Converted project to use uv
+- Added `LowerCaseMixin` and `TitleCaseMixin`
+
 ## v2.0.0 - 2022-05-28
 - Made "no mangle" behavior the default & removed NoMangleMixin
 
