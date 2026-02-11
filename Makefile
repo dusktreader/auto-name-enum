@@ -1,41 +1,89 @@
-.ONESHELL:
-.DEFAULT_GOAL:=help
-SHELL:=/bin/bash
-PACKAGE_NAME:=auto_name_enum
+PACKAGE_TARGET:=src/auto_name_enum
 
-.PHONY: test
-test:
-	uv run pytest
+default: help
 
-.PHONY: types
-types:
-	uv run mypy ${PACKAGE_TARGET} tests --pretty
-	uv run basedpyright ${PACKAGE_TARGET} tests
 
-.PHONY: lint
-lint:
-	uv run ruff check ${PACKAGE_TARGET} tests
+## ==== Quality Control ================================================================================================
 
-.PHONY: qa
-qa: test lint types
+qa: qa/full  ## Shortcut for qa/full
+
+qa/test:  ## Run the tests
+	@uv run pytest
+
+qa/types:  ## Run static type checks
+	@uv run ty check
+
+qa/lint:  ## Run linters
+	@uv run ruff check ${PACKAGE_TARGET} tests
+
+qa/full: qa/test qa/lint qa/types  ## Run the full set of quality checks
 	@echo "All quality checks pass!"
 
-.PHONY: format
-format:
-	uv run ruff format ${PACKAGE_TARGET} tests
+qa/format:  ## Run code formatter
+	@uv run ruff format ${PACKAGE_TARGET} tests
 
-.PHONY: clean
+
+## ==== Helpers ========================================================================================================
+
 clean:  ## Clean up build artifacts and other junk
 	@rm -rf .venv
 	@uv run pyclean . --debris
 	@rm -rf dist
 	@rm -rf .ruff_cache
 	@rm -rf .pytest_cache
-	@rm -rf .mypy_cache
 	@rm -f .coverage*
 	@rm -f .junit.xml
 
-# Recipe stolen from: https://gist.github.com/prwhite/8168133?permalink_comment_id=4160123#gistcomment-4160123
-.PHONY: help
 help:  ## Show help message
-	@awk 'BEGIN {FS = ": .*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% 0-9a-zA-Z_-]+(\\:[$$()% 0-9a-zA-Z_-]+)*:.*?##/ { gsub(/\\:/,":", $$1); printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@awk "$$PRINT_HELP_PREAMBLE" $(MAKEFILE_LIST)
+
+
+# ..... Make configuration .............................................................................................
+
+.ONESHELL:
+SHELL:=/bin/bash
+.PHONY: qa qa/test qa/types qa/lint qa/full qa/format \
+	clean help
+
+
+# ..... Color table for pretty printing ................................................................................
+
+RED    := \033[31m
+GREEN  := \033[32m
+YELLOW := \033[33m
+BLUE   := \033[34m
+TEAL   := \033[36m
+GRAY   := \033[90m
+CLEAR  := \033[0m
+ITALIC := \033[3m
+
+
+# ..... Help printer ...................................................................................................
+
+define PRINT_HELP_PREAMBLE
+BEGIN {
+	print "Usage: $(YELLOW)make <target>$(CLEAR)"
+	print
+	print "Targets:"
+}
+/^## =+ .+( =+)?/ {
+    s = $$0
+    sub(/^## =+ /, "", s)
+    sub(/ =+/, "", s)
+	printf("\n  %s:\n", s)
+}
+/^## -+ .+( -+)?/ {
+    s = $$0
+    sub(/^## -+ /, "", s)
+    sub(/ -+/, "", s)
+	printf("\n    $(TEAL)> %s$(CLEAR)\n", s)
+}
+/^[$$()% 0-9a-zA-Z_\/-]+(\\:[$$()% 0-9a-zA-Z_\/-]+)*:.*?##/ {
+    t = $$0
+    sub(/:.*/, "", t)
+    h = $$0
+    sub(/.?*##/, "", h)
+    printf("    $(YELLOW)%-19s$(CLEAR) $(GRAY)$(ITALIC)%s$(CLEAR)\n", t, h)
+}
+endef
+export PRINT_HELP_PREAMBLE
