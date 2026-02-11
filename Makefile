@@ -23,6 +23,15 @@ qa/format:  ## Run code formatter
 	@uv run ruff format ${PACKAGE_TARGET} tests
 
 
+## ==== Other Commands =================================================================================================
+
+publish: _confirm  ## Publish the package by pushing a tag with the current version
+	@if [[ "$$(git rev-parse --abbrev-ref HEAD)" != "main" ]]; then \
+		echo "You must be on the main branch to publish." && exit 1; \
+	fi
+	@git tag v$$(uv version --short) && git push origin v$$(uv version --short)
+
+
 ## ==== Helpers ========================================================================================================
 
 clean:  ## Clean up build artifacts and other junk
@@ -43,6 +52,7 @@ help:  ## Show help message
 .ONESHELL:
 SHELL:=/bin/bash
 .PHONY: qa qa/test qa/types qa/lint qa/full qa/format \
+	publish \
 	clean help
 
 
@@ -56,6 +66,14 @@ TEAL   := \033[36m
 GRAY   := \033[90m
 CLEAR  := \033[0m
 ITALIC := \033[3m
+
+
+# ..... Hidden auxiliary targets .......................................................................................
+
+_confirm:  # Requires confirmation before proceeding (Do not use directly)
+	@if [[ -z "$(CONFIRM)" ]]; then \
+		echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]; \
+	fi
 
 
 # ..... Help printer ...................................................................................................
