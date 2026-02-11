@@ -3,9 +3,9 @@ import sys
 from typing import Any
 
 if sys.version_info < (3, 12):
-    from typing_extensions import override  # pyright: ignore[reportUnreachable]
+    from typing_extensions import override
 else:
-    from typing import override  # pyright: ignore[reportUnreachable]
+    from typing import override
 
 
 class LowerCaseMixin(enum.Enum):
@@ -13,13 +13,12 @@ class LowerCaseMixin(enum.Enum):
     This mixin can be used to make values lower case.
 
     Example:
-        class Pets(AutoNameMixin, LowerCaseMixin):
-            DOG = auto()
-            CAT = auto()
+        class Aliens(AutoNameMixin, LowerCaseMixin):
+            JAWA = auto()
+            EWOK = auto()
 
-        >> fido = Pets.DOG
-        >> print(fido)
-        'dog'
+        >> print(Aliens.JAWA)
+        'jawa'
 
     Note:
         Inheritance order is important! This must *follow* AutoNameEnum in the
@@ -34,16 +33,15 @@ class LowerCaseMixin(enum.Enum):
 
 class TitleCaseMixin(enum.Enum):
     """
-    This mixin can be used to make values lower case.
+    This mixin can be used to make values title case.
 
     Example:
-        class Pets(AutoNameMixin, TitleCaseMixin):
-            DOG = auto()
-            CAT = auto()
+        class Aliens(AutoNameMixin, TitleCaseMixin):
+            JAWA = auto()
+            EWOK = auto()
 
-        >> fido = Pets.DOG
-        >> print(fido)
-        'Dog'
+        >> print(Aliens.JAWA)
+        'Jawa'
 
     Note:
         Inheritance order is important! This must *follow* AutoNameEnum in the
