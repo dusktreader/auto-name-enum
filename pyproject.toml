@@ -1,6 +1,6 @@
 [project]
 name = "auto-name-enum"
-version = "4.0.0"
+version = "4.1.0"
 description = "String-based Enum class that automatically assigns values"
 authors = [
     {name = "Tucker Beck", email ="tucker.beck@gmail.com"},
