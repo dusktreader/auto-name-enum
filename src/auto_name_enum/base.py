@@ -1,4 +1,3 @@
-from IPython.display import display
 import enum
 import random
 import sys
