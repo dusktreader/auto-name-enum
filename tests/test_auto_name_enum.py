@@ -12,19 +12,6 @@ class DummyEnum(AutoNameEnum):
     HUTT = auto()
 
 
-class DocEnum(AutoNameEnum):
-    JAWA = autodoc("A small, rodent-like alien from Tatooine")
-    EWOK = autodoc("A furry, diminutive alien from the forest moon of Endor")
-    HUTT = autodoc("A large, slug-like alien from Nal Hutta")
-    PYKE = autodoc("A secretive, spice-dealing alien from Oba Diah")
-
-
-class MixedEnum(AutoNameEnum):
-    JAWA = autodoc("A small, rodent-like alien from Tatooine")
-    EWOK = auto()
-    HUTT = autodoc("A large, slug-like alien from Nal Hutta")
-
-
 class TestAutoNameEnum:
     def test_auto(self):
         """
@@ -99,33 +86,68 @@ class TestAutoNameEnum:
             assert 1 not in DummyEnum
 
 
+class PositionalDescriptionEnum(AutoNameEnum):
+    JAWA = autodoc("A small, rodent-like alien from Tatooine")
+    EWOK = autodoc("A furry, diminutive alien from the forest moon of Endor")
+    HUTT = autodoc("A large, slug-like alien from Nal Hutta")
+    PYKE = autodoc("A secretive, spice-dealing alien from Oba Diah")
+
+
+class KwargDocsEnum(AutoNameEnum):
+    JAWA = autodoc(description="A small, rodent-like alien from Tatooine", display_name="Jawa (Tatooine)")
+    EWOK = autodoc(description="A furry, diminutive alien from the forest moon of Endor", display_name="Ewok (Endor)")
+    HUTT = autodoc(description="A large, slug-like alien from Nal Hutta", display_name="Hutt (Nal Hutta)")
+    PYKE = autodoc(description="A secretive, spice-dealing alien from Oba Diah", display_name="Pyke (Oba Diah)")
+
+
+class MixedEnum(AutoNameEnum):
+    JAWA = autodoc("A small, rodent-like alien from Tatooine")
+    EWOK = auto()
+    HUTT = autodoc(description="A large, slug-like alien from Nal Hutta")
+    PYKE = autodoc(description="A secretive, spice-dealing alien from Oba Diah", display_name="Pyke (Oba Diah)")
+
+
 class TestAutodoc:
     def test_autodoc_value(self):
         """
         Test that autodoc enum members still have the correct auto-generated value
         """
-        assert DocEnum.JAWA.value == "JAWA"
-        assert DocEnum.EWOK.value == "EWOK"
-        assert DocEnum.HUTT.value == "HUTT"
-        assert DocEnum.PYKE.value == "PYKE"
-
-    def test_autodoc_description(self):
-        """
-        Test that autodoc enum members have the correct description
-        """
-        assert DocEnum.JAWA.description == "A small, rodent-like alien from Tatooine"
-        assert DocEnum.EWOK.description == "A furry, diminutive alien from the forest moon of Endor"
-        assert DocEnum.HUTT.description == "A large, slug-like alien from Nal Hutta"
-        assert DocEnum.PYKE.description == "A secretive, spice-dealing alien from Oba Diah"
+        assert PositionalDescriptionEnum.JAWA.value == "JAWA"
+        assert PositionalDescriptionEnum.EWOK.value == "EWOK"
+        assert PositionalDescriptionEnum.HUTT.value == "HUTT"
+        assert PositionalDescriptionEnum.PYKE.value == "PYKE"
 
     def test_autodoc_str(self):
         """
         Test that autodoc enum members can be properly cast to strings
         """
-        assert str(DocEnum.JAWA) == "JAWA"
-        assert str(DocEnum.EWOK) == "EWOK"
-        assert str(DocEnum.HUTT) == "HUTT"
-        assert str(DocEnum.PYKE) == "PYKE"
+        assert str(PositionalDescriptionEnum.JAWA) == "JAWA"
+        assert str(PositionalDescriptionEnum.EWOK) == "EWOK"
+        assert str(PositionalDescriptionEnum.HUTT) == "HUTT"
+        assert str(PositionalDescriptionEnum.PYKE) == "PYKE"
+
+    def test_autodoc_positional_description(self):
+        """
+        Test that autodoc enum members have the correct description
+        """
+        assert PositionalDescriptionEnum.JAWA.description == "A small, rodent-like alien from Tatooine"
+        assert PositionalDescriptionEnum.EWOK.description == "A furry, diminutive alien from the forest moon of Endor"
+        assert PositionalDescriptionEnum.HUTT.description == "A large, slug-like alien from Nal Hutta"
+        assert PositionalDescriptionEnum.PYKE.description == "A secretive, spice-dealing alien from Oba Diah"
+
+    def test_autodoc_kwarg_docs(self):
+        """
+        Test that autodoc enum members have the correct description
+        """
+        assert KwargDocsEnum.JAWA.description == "A small, rodent-like alien from Tatooine"
+        assert KwargDocsEnum.EWOK.description == "A furry, diminutive alien from the forest moon of Endor"
+        assert KwargDocsEnum.HUTT.description == "A large, slug-like alien from Nal Hutta"
+        assert KwargDocsEnum.PYKE.description == "A secretive, spice-dealing alien from Oba Diah"
+
+        assert KwargDocsEnum.JAWA.display_name == "Jawa (Tatooine)"
+        assert KwargDocsEnum.EWOK.display_name == "Ewok (Endor)"
+        assert KwargDocsEnum.HUTT.display_name == "Hutt (Nal Hutta)"
+        assert KwargDocsEnum.PYKE.display_name == "Pyke (Oba Diah)"
 
     def test_mixed_auto_and_autodoc(self):
         """
@@ -133,28 +155,27 @@ class TestAutodoc:
         """
         assert MixedEnum.JAWA.value == "JAWA"
         assert MixedEnum.JAWA.description == "A small, rodent-like alien from Tatooine"
+        assert MixedEnum.JAWA.display_name == "JAWA"
 
         assert MixedEnum.EWOK.value == "EWOK"
         assert MixedEnum.EWOK.description is None
+        assert MixedEnum.EWOK.display_name == "EWOK"
 
         assert MixedEnum.HUTT.value == "HUTT"
         assert MixedEnum.HUTT.description == "A large, slug-like alien from Nal Hutta"
+        assert MixedEnum.HUTT.display_name == "HUTT"
+
+        assert MixedEnum.PYKE.value == "PYKE"
+        assert MixedEnum.PYKE.description == "A secretive, spice-dealing alien from Oba Diah"
+        assert MixedEnum.PYKE.display_name == "Pyke (Oba Diah)"
 
     def test_autodoc_iteration(self):
         """
         Test that enums with autodoc can be iterated over
         """
-        members = list(DocEnum)
+        members = list(PositionalDescriptionEnum)
         assert len(members) == 4
-        assert DocEnum.JAWA in members
-        assert DocEnum.EWOK in members
-        assert DocEnum.HUTT in members
-        assert DocEnum.PYKE in members
-
-    def test_description_on_auto_members(self):
-        """
-        Test that members created with auto() return None for description
-        """
-        assert DummyEnum.JAWA.description is None
-        assert DummyEnum.EWOK.description is None
-        assert DummyEnum.HUTT.description is None
+        assert PositionalDescriptionEnum.JAWA in members
+        assert PositionalDescriptionEnum.EWOK in members
+        assert PositionalDescriptionEnum.HUTT in members
+        assert PositionalDescriptionEnum.PYKE in members

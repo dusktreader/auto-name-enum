@@ -47,10 +47,10 @@ For more information on enums (and the auto method), see [the official docs]
 
 ## Mixins
 
-There are two mixins provided that change the behavior of `auto()`:
+There are two mixins provided that change the case of member values for both `auto()` and `autodoc()`:
 
-- `LowerCaseMixin`: values produced by `auto()` are in all lower-case
-- `TitleCaseMixin`: values produced by `auto()` will be in title- case (lower-case except for first letter)
+- `LowerCaseMixin`: values are in all lower-case
+- `TitleCaseMixin`: values are in title-case (lower-case except for first letter)
 
 When these mixins are used, they _must_ be included after `AutoNameEnum` in the class inheritance declaration:
 
@@ -65,8 +65,9 @@ class Aliens(AutoNameEnum, TitleCaseMixin)
 
 ## Documented members with `autodoc()`
 
-The `autodoc()` function works like `auto()`, but also attaches a description to each enum member.
-This is useful for self-documenting enums where members need human-readable explanations:
+The `autodoc()` function works like `auto()`, but also attaches a `description` and/or
+`display_name` to each enum member. This is useful for self-documenting enums where members
+need human-readable explanations or labels:
 
 ```python
 class Aliens(AutoNameEnum):
@@ -90,8 +91,21 @@ Access the description via the `.description` property:
 'A small, rodent-like alien from Tatooine'
 ```
 
+A `display_name` can also be attached as a keyword argument:
+
+```python
+class Aliens(AutoNameEnum):
+    JAWA = autodoc(description="A small, rodent-like alien from Tatooine", display_name="Jawa (Tatooine)")
+    EWOK = autodoc(description="A furry, diminutive alien from the forest moon of Endor", display_name="Ewok (Endor)")
+```
+
+```
+>>> print(Aliens.JAWA.display_name)
+'Jawa (Tatooine)'
+```
+
 You can mix `auto()` and `autodoc()` in the same enum. Members created with `auto()` will return
-`None` for `.description`:
+`None` for `.description` and their value for `.display_name`:
 
 ```python
 class Aliens(AutoNameEnum):
@@ -105,4 +119,6 @@ class Aliens(AutoNameEnum):
 'A small, rodent-like alien from Tatooine'
 >>> print(Aliens.EWOK.description)
 None
+>>> print(Aliens.EWOK.display_name)
+'EWOK'
 ```

@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.1.0 - 2026-03-09
+- Added `display_name` keyword argument to `autodoc()`
+- Fixed `autodoc()` members not respecting `LowerCaseMixin` and `TitleCaseMixin`
+
+
 ## v4.0.0 - 2026-02-10
 - Added `autodoc()` functionality
 - Dropped support for Python 3.9
