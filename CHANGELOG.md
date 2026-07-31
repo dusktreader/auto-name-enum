@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## v4.2.0 - 2026-07-31
+
+- Added `KebabCaseMixin` to convert snake_case member names to kebab-case values
+- Exported `KebabCaseMixin` from the top-level `auto_name_enum` package
+- Added tests for `KebabCaseMixin` with both `auto()` and `autodoc()`
+
+
 ## v4.1.0 - 2026-03-09
 - Added `display_name` keyword argument to `autodoc()`
 - Fixed `autodoc()` members not respecting `LowerCaseMixin` and `TitleCaseMixin`

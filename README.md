@@ -51,6 +51,7 @@ There are two mixins provided that change the case of member values for both `au
 
 - `LowerCaseMixin`: values are in all lower-case
 - `TitleCaseMixin`: values are in title-case (lower-case except for first letter)
+- `KebabCaseMixin`: values are in kebab-case (dashes instead of underscores)
 
 When these mixins are used, they _must_ be included after `AutoNameEnum` in the class inheritance declaration:
 

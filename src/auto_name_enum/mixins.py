@@ -52,3 +52,26 @@ class TitleCaseMixin(enum.Enum):
     @staticmethod
     def _generate_next_value_(name: str, *_: Any, **__: Any) -> str:
         return name[0].upper() + name[1:].lower()
+
+
+class KebabCaseMixin(enum.Enum):
+    """
+    This mixin can be used to convert values to kebab-case from snake_case.
+
+    Example:
+        class Aliens(AutoNameMixin, TitleCaseMixin):
+            esh_kha = auto()
+            gu_vandi = auto()
+
+        >> print(Aliens.esh_kha)
+        'esh-kha'
+
+    Note:
+        Inheritance order is important! This must *follow* AutoNameEnum in the
+        list of subclasses
+    """
+
+    @override
+    @staticmethod
+    def _generate_next_value_(name: str, *_: Any, **__: Any) -> str:
+        return name.replace("_", "-")
