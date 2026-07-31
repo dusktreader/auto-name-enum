@@ -1,4 +1,4 @@
-from auto_name_enum import AutoNameEnum, auto, autodoc, LowerCaseMixin, TitleCaseMixin
+from auto_name_enum import AutoNameEnum, auto, autodoc, LowerCaseMixin, TitleCaseMixin, KebabCaseMixin
 
 
 class LowerEnum(AutoNameEnum, LowerCaseMixin):
@@ -59,3 +59,33 @@ class TestTitleCaseMixin:
         assert TitleAutoDocEnum.HUTT.value == "Hutt"
         assert TitleAutoDocEnum.HUTT.description == "A large, slug-like alien from Nal Hutta"
         assert TitleAutoDocEnum.HUTT.display_name == "Hutt (Nal Hutta)"
+
+
+class KebabEnum(AutoNameEnum, KebabCaseMixin):
+    jawa = auto()
+    esh_kha = auto()
+    gu_vandi = auto()
+
+
+class KebabAutoDocEnum(AutoNameEnum, KebabCaseMixin):
+    jawa = autodoc(description="A small, rodent-like alien from Tatooine", display_name="Jawa (Tatooine)")
+    esh_kha = autodoc(description="An ancient, war-like alien with mysterious origins", display_name="Esh-kha (Unknown)")
+    gu_vandi = autodoc(description="An obscure, peaceful alien from Praven Prime", display_name="Gu-vandi (Praen Prime)")
+
+
+class TestKebabCaseMixin:
+    def test_auto(self):
+        assert KebabEnum.jawa.value == "jawa"
+        assert KebabEnum.esh_kha.value == "esh-kha"
+        assert KebabEnum.gu_vandi.value == "gu-vandi"
+
+    def test_autodoc(self):
+        assert KebabAutoDocEnum.jawa.value == "jawa"
+        assert KebabAutoDocEnum.jawa.description == "A small, rodent-like alien from Tatooine"
+        assert KebabAutoDocEnum.jawa.display_name == "Jawa (Tatooine)"
+        assert KebabAutoDocEnum.esh_kha.value == "esh-kha"
+        assert KebabAutoDocEnum.esh_kha.description == "An ancient, war-like alien with mysterious origins"
+        assert KebabAutoDocEnum.esh_kha.display_name == "Esh-kha (Unknown)"
+        assert KebabAutoDocEnum.gu_vandi.value == "gu-vandi"
+        assert KebabAutoDocEnum.gu_vandi.description == "An obscure, peaceful alien from Praven Prime"
+        assert KebabAutoDocEnum.gu_vandi.display_name == "Gu-vandi (Praen Prime)"
